@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-const config = process.env;
-
 const verifyToken = (req, res, next) => {
 
   if(req.path == '/register' || req.path == '/login') {
@@ -15,7 +13,7 @@ const verifyToken = (req, res, next) => {
     return res.status(403).send("A token is required for authentication");
   }
   try {
-    const decoded = jwt.verify(token, config.TOKEN_KEY);
+    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
     req.user = decoded;
     console.log('req.user');
     console.log(req.user);
