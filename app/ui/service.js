@@ -176,6 +176,7 @@ class Service extends ServiceBase {
     try {
       let user = new User(self.app, self.name);
       let ret = await user.login(req.body);
+      res.cookie("session", ret.token);
       res.json(ret);
     } catch(err) {
       res.status(401);

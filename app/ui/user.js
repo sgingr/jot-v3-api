@@ -25,7 +25,7 @@ class User extends UiBase {
       let user = await self.dao.getUser(parms.email, pw);
 
       if(!user || !user.id ) {
-        throw('User not valid');
+        throw('Unauthorized');
       }
 
       let token = jwt.sign({ userId: user.id, userName: user.name}, process.env.TOKEN_KEY);
