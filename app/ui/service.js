@@ -21,7 +21,7 @@ class Service extends ServiceBase {
     let errs = self.common.validate(req, [
       //{ name: 'user', type: 'query' },
     ]);
-    if(errs) {
+    if (errs) {
       res.status(400);
       return res.json({ errors: errs, confirmation: "false" });
     }
@@ -29,7 +29,7 @@ class Service extends ServiceBase {
       let ui = new UI(self.app, self.name);
       let ret = await ui.getCategories(req.user.userId);
       res.json(ret);
-    } catch(err) {
+    } catch (err) {
       res.status(500);
       let errMessage = "Error getting Categories" + err.toString();
       let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
@@ -49,7 +49,7 @@ class Service extends ServiceBase {
       //{ name: 'user', type: 'query' },
       { name: 'category', type: 'query' },
     ]);
-    if(errs) {
+    if (errs) {
       res.status(400);
       return res.json({ errors: errs, confirmation: "false" });
     }
@@ -57,7 +57,7 @@ class Service extends ServiceBase {
       let ui = new UI(self.app, self.name);
       let ret = await ui.getNotes(req.user.userId, req.query);
       res.json(ret);
-    } catch(err) {
+    } catch (err) {
       res.status(500);
       let errMessage = "Error getting Notes " + err.toString();
       let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
@@ -80,7 +80,7 @@ class Service extends ServiceBase {
       { name: 'content', type: 'body' },
       { name: 'statusId', type: 'body' },
     ]);
-    if(errs) {
+    if (errs) {
       res.status(400);
       return res.json({ errors: errs, confirmation: "false" });
     }
@@ -88,7 +88,7 @@ class Service extends ServiceBase {
       let ui = new UI(self.app, self.name);
       let ret = await ui.postNote(req.user.userId, req.body);
       res.json(ret);
-    } catch(err) {
+    } catch (err) {
       res.status(500);
       let errMessage = "Error posting new note " + err.toString();
       let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
@@ -112,7 +112,7 @@ class Service extends ServiceBase {
       { name: 'content', type: 'body' },
       { name: 'statusId', type: 'body' },
     ]);
-    if(errs) {
+    if (errs) {
       res.status(400);
       return res.json({ errors: errs, confirmation: "false" });
     }
@@ -120,7 +120,7 @@ class Service extends ServiceBase {
       let ui = new UI(self.app, self.name);
       let ret = await ui.updateNote(req.user.userId, req.body);
       res.json(ret);
-    } catch(err) {
+    } catch (err) {
       res.status(500);
       let errMessage = "Error updating note " + err.toString();
       let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
@@ -141,7 +141,7 @@ class Service extends ServiceBase {
       { name: 'noteId', type: 'query' },
       { name: 'categoryId', type: 'query' },
     ]);
-    if(errs) {
+    if (errs) {
       res.status(400);
       return res.json({ errors: errs, confirmation: "false" });
     }
@@ -149,7 +149,7 @@ class Service extends ServiceBase {
       let ui = new UI(self.app, self.name);
       let ret = await ui.deleteNote(req.user.userId, req.query);
       res.json(ret);
-    } catch(err) {
+    } catch (err) {
       res.status(500);
       let errMessage = "Error deleting note " + err.toString();
       let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
@@ -169,16 +169,22 @@ class Service extends ServiceBase {
       { name: 'email', type: 'body' },
       { name: 'password', type: 'body' },
     ]);
-    if(errs) {
+    if (errs) {
       res.status(400);
       return res.json({ errors: errs, confirmation: "false" });
     }
     try {
       let user = new User(self.app, self.name);
       let ret = await user.login(req.body);
-      res.cookie("session", ret.token);
+      let options = {
+        maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+        httpOnly: true, // The cookie only accessible by the web server
+      }
+      //res.header("Access-Control-Allow-Origin", 'http://localhost:5173');
+      //res.header("Access-Control-Allow-Credentials", true);
+      res.cookie("session", ret.token, options);
       res.json(ret);
-    } catch(err) {
+    } catch (err) {
       res.status(401);
       let errMessage = "Error logging in " + err.toString();
       let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
@@ -199,7 +205,7 @@ class Service extends ServiceBase {
       { name: 'email', type: 'body' },
       { name: 'password', type: 'body' },
     ]);
-    if(errs) {
+    if (errs) {
       res.status(400);
       return res.json({ errors: errs, confirmation: "false" });
     }
@@ -207,7 +213,7 @@ class Service extends ServiceBase {
       let user = new User(self.app, self.name);
       let ret = await user.register(req.body);
       res.json(ret);
-    } catch(err) {
+    } catch (err) {
       res.status(401);
       let errMessage = "Error registering user " + err.toString();
       let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
@@ -226,7 +232,7 @@ class Service extends ServiceBase {
     let errs = self.common.validate(req, [
       //{ name: 'user', type: 'query' },
     ]);
-    if(errs) {
+    if (errs) {
       res.status(400);
       return res.json({ errors: errs, confirmation: "false" });
     }
@@ -234,7 +240,7 @@ class Service extends ServiceBase {
       let ui = new UI(self.app, self.name);
       let ret = await ui.getStatusOpts(req.user.userId);
       res.json(ret);
-    } catch(err) {
+    } catch (err) {
       res.status(500);
       let errMessage = "Error getting Status list " + err.toString();
       let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });

@@ -48,8 +48,22 @@ let main = async () => {
   morgan.token('customApi', () => { return moment().format('HH:mm:ss,SSS') + logKey })
   app.use(morgan(':customApi :method :url :status :response-time ms - :res[content-length]'));
   app.use(bodyParser.json());
-  app.use(cors());
+
+  var whitelist = ['http://localhost:5173']
+  var corsOptions = {
+    credentials: true,
+    origin: function (origin, callback) {
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    }
+  }
+
+  app.use(cors(corsOptions));
   app.use(helmet());
+  app.options('*', cors(corsOptions));
 
   /*
   | -----------------------------------------------------------------------
@@ -67,7 +81,7 @@ let main = async () => {
   */
   let cfgData = await configHelper.loadConfig();
   console.log(cfgData);
-  if(cfgData.isLocalInstance) {
+  if (cfgData.isLocalInstance) {
     logger.info('***  Is a local Instance  ***');
   }
   app.set('config', cfgData);
@@ -83,10 +97,10 @@ let main = async () => {
     let handlerMethod = (route.handlerMethod) ? route.handlerMethod : route.method + 'Data';
 
     //Add Route
-    app[route.method](route.path, auth, (req,res) => {
+    app[route.method](route.path, auth, (req, res) => {
       var handlerClass = require(route.handlerClass);
       let obj = new handlerClass(app, route.name);
-      obj[handlerMethod](req,res);
+      obj[handlerMethod](req, res);
     });
   });
   logger.info('Route Setup Completed');
@@ -107,7 +121,7 @@ let main = async () => {
 */
 try {
   main();
-} catch(err) {
+} catch (err) {
   logger.error('Errors Occurred starting the Sketti API:')
   console.log(err);
 }
