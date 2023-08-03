@@ -70,4 +70,11 @@ module.exports = [
     handlerClass: 'ui/service',
     handlerMethod: 'login'
   },
+  {
+    name: 'user',
+    path: '/user/:id',
+    method: 'get',
+    handlerClass: 'ui/service',
+    handlerMethod: 'getUser'
+  },
 ]

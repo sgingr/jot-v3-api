@@ -24,15 +24,15 @@ class User extends UiBase {
       let pw = enc.encryptText(parms.password);
       let user = await self.dao.getUser(parms.email, pw);
 
-      if(!user || !user.id ) {
-        throw('Unauthorized');
+      if (!user || !user.id) {
+        throw ('Unauthorized');
       }
 
-      let token = jwt.sign({ userId: user.id, userName: user.name}, process.env.TOKEN_KEY);
+      let token = jwt.sign({ userId: user.id, userName: user.name }, process.env.TOKEN_KEY);
       return ({ user: user, token: token });
 
-    } catch(err) {
-      throw(err);
+    } catch (err) {
+      throw (err);
     }
   }
 
@@ -49,10 +49,26 @@ class User extends UiBase {
       let pw = enc.encryptText(parms.password);
       await self.dao.createUser(parms.name, parms.email, pw);
       return { status: 1, message: "New user [parms.name] created" };
-    } catch(err) {
-      throw(err);
+    } catch (err) {
+      throw (err);
     }
 
+  }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  getUser
+  | -----------------------------------------------------------------------
+  */
+  async getUser(parms) {
+    let self = this;
+
+    try {
+      let user = await self.dao.getUserById(parms.id);
+      return user;
+    } catch (err) {
+      throw (err);
+    }
   }
 }
 

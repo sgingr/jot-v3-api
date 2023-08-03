@@ -123,6 +123,19 @@ class UiDao {
 
   /*
   | -----------------------------------------------------------------------
+  |  getUserById
+  | -----------------------------------------------------------------------
+  */
+  async getUserById(id) {
+    let self = this;
+    let sql = `SELECT id, name FROM user where id = ? and active = 1`;
+    let queryParams = [ id ];
+    let data = await self.dbHelper.executeSqlAwait(sql, queryParams);
+    return self.getFirstRow(data);
+  }
+
+  /*
+  | -----------------------------------------------------------------------
   |  createUser
   | -----------------------------------------------------------------------
   */

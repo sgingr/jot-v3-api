@@ -14,6 +14,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const moment = require('moment');
+const cookieParser = require("cookie-parser");
 const Logger = require('utils/logger');
 const routes = require('routes');
 const config = require('config/config.js');
@@ -48,6 +49,7 @@ let main = async () => {
   morgan.token('customApi', () => { return moment().format('HH:mm:ss,SSS') + logKey })
   app.use(morgan(':customApi :method :url :status :response-time ms - :res[content-length]'));
   app.use(bodyParser.json());
+  app.use(cookieParser());
 
   var whitelist = ['http://localhost:5173']
   var corsOptions = {

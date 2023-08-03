@@ -6,8 +6,10 @@ const verifyToken = (req, res, next) => {
     return next();
   }
 
-  const token =
-    req.body.token || req.query.token || req.headers["x-access-token"];
+  //const token = req.body.token || req.query.token || req.headers["x-access-token"];
+
+  console.log(req.cookies);
+  const token = req.cookies.session;
 
   if (!token) {
     return res.status(403).send("A token is required for authentication");
