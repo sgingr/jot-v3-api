@@ -51,7 +51,7 @@ let main = async () => {
   app.use(bodyParser.json());
   app.use(cookieParser());
 
-  var whitelist = ['http://localhost:5173']
+  var whitelist = ['https://www.harplee.com','http://localhost:5173']
   var corsOptions = {
     credentials: true,
     origin: function (origin, callback) {
