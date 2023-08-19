@@ -124,6 +124,6 @@ let main = async () => {
 try {
   main();
 } catch (err) {
-  logger.error('Errors Occurred starting the Sketti API:')
+  logger.error('Errors Occurred starting the Jot-V3 API:')
   console.log(err);
 }

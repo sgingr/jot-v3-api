@@ -6,9 +6,6 @@ const verifyToken = (req, res, next) => {
     return next();
   }
 
-  //const token = req.body.token || req.query.token || req.headers["x-access-token"];
-
-  console.log(req.cookies);
   const token = req.cookies.session;
 
   if (!token) {
@@ -17,8 +14,6 @@ const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
     req.user = decoded;
-    console.log('req.user');
-    console.log(req.user);
   } catch (err) {
     return res.status(401).send("Invalid Token");
   }
