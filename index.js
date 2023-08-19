@@ -16,6 +16,7 @@ const helmet = require('helmet');
 const moment = require('moment');
 const cookieParser = require("cookie-parser");
 const Logger = require('utils/logger');
+const common = require('utils/common');
 const routes = require('routes');
 const config = require('config/config.js');
 const auth = require("app/middleware/auth");
@@ -29,7 +30,6 @@ let main = async () => {
   | -----------------------------------------------------------------------
   */
   let app = express();
-  console.log(process.env)
 
   /*
   | -----------------------------------------------------------------------
@@ -47,11 +47,11 @@ let main = async () => {
   | -----------------------------------------------------------------------
   */
   morgan.token('customApi', () => { return moment().format('HH:mm:ss,SSS') + logKey })
-  app.use(morgan(':customApi :method :url :status :response-time ms - :res[content-length]'));
+  app.use(morgan(':customApi :remote-addr :method :url :status :response-time ms - :res[content-length]'));
   app.use(bodyParser.json());
   app.use(cookieParser());
 
-  var whitelist = ['https://www.harplee.com','http://localhost:5173']
+  var whitelist = common.getWhitelist();
   var corsOptions = {
     credentials: true,
     origin: function (origin, callback) {
