@@ -46,6 +46,7 @@ let main = async () => {
   | -----------------------------------------------------------------------
   */
   morgan.token('customApi', () => { return moment().format('HH:mm:ss,SSS') + logKey })
+  app.enable('trust proxy');
   app.use(morgan(':customApi :remote-addr :method :url :status :response-time ms - :res[content-length]'));
   app.use(bodyParser.json());
   app.use(cookieParser());
