@@ -99,6 +99,17 @@ class Config {
     return keepers;
   }
 
+  /*
+  | -----------------------------------------------------------------------
+  |  getWhitelist
+  | -----------------------------------------------------------------------
+  */
+  getWhitelist() {
+    if(process.env.WHITELIST) {
+      return process.env.WHITELIST.split(',');
+    }
+    return [];
+  }
 
 }
 module.exports = Config;
