@@ -205,7 +205,10 @@ class UiDao {
     let sql = `INSERT INTO checklist_items (note_id, label, create_date, is_selected, last_modify)
                VALUES (?, ?, sysdate(), 0, sysdate())`;
     let queryParams = [ noteId, lab ];
-    return await self.dbHelper.executeSqlAwait(sql, queryParams);
+    let data = await self.dbHelper.executeSqlAwait(sql, queryParams);
+    console.log('DATA====');
+    console.log(data);
+    return data;
   }
 
   /*
