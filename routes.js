@@ -65,7 +65,7 @@ module.exports = [
   },
   {
     name: 'update-checklist-item',
-    path: '/checklist/item/:id',
+    path: '/checklist/item',
     method: 'put',
     handlerClass: 'ui/service',
     handlerMethod: 'updateChecklistItem'
