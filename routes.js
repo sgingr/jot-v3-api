@@ -58,7 +58,7 @@ module.exports = [
   */
   {
     name: 'list-checklist-items',
-    path: '/checklist/items/:id',
+    path: '/checklist/items',
     method: 'get',
     handlerClass: 'ui/service',
     handlerMethod: 'getChecklistItems'
