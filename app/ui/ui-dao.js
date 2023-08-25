@@ -206,9 +206,7 @@ class UiDao {
                VALUES (?, ?, sysdate(), 0, sysdate())`;
     let queryParams = [ noteId, lab ];
     let data = await self.dbHelper.executeSqlAwait(sql, queryParams);
-    console.log('DATA====');
-    console.log(data);
-    return data;
+    return data.insertId;
   }
 
   /*
