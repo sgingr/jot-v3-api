@@ -35,9 +35,26 @@ class UI extends UiBase {
     return await self.dao.getNotes(userId, parms.categoryId);
   }
 
-  async getStatusOpts(parms) {
+  async getStatusOpts() {
     let self = this;
     return await self.dao.getStatusOpts();
+  }
+
+  async getChecklistItems(userId, parms) {
+    let self = this;
+    return await self.dao.getChecklistItems(userId, parms.note);
+  }
+
+  async postChecklistItem(userId, parms) {
+    let self = this;
+    await self.dao.postChecklistItem(parms.noteId, parms.label);
+    return await self.dao.getChecklistItem(userId, parms.categoryId);
+  }
+
+  async updateChecklistItem(userId, parms) {
+    let self = this;
+    await self.dao.updateChecklistItem(parms.noteId, parms.label, parms.isSelected);
+    //return await self.dao.getNotes(userId, parms.categoryId);
   }
 
 }

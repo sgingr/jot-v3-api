@@ -53,6 +53,32 @@ module.exports = [
   },
   /*
   | -----------------------------------------------------------------------
+  |  Checklists
+  | -----------------------------------------------------------------------
+  */
+  {
+    name: 'list-checklist-items',
+    path: '/checklist/items/:id',
+    method: 'get',
+    handlerClass: 'ui/service',
+    handlerMethod: 'getChecklistItems'
+  },
+  {
+    name: 'update-checklist-item',
+    path: '/checklist/item/:id',
+    method: 'put',
+    handlerClass: 'ui/service',
+    handlerMethod: 'updateChecklistItem'
+  },
+  {
+    name: 'post-checklist-item',
+    path: '/checklist/item',
+    method: 'post',
+    handlerClass: 'ui/service',
+    handlerMethod: 'postChecklistItem'
+  },
+  /*
+  | -----------------------------------------------------------------------
   |  Auth stuffz
   | -----------------------------------------------------------------------
   */

@@ -277,5 +277,90 @@ class Service extends ServiceBase {
     }
   }
 
+    /*
+  | -----------------------------------------------------------------------
+  |  getChecklistItems
+  | -----------------------------------------------------------------------
+  */
+  async getChecklistItems(req, res) {
+    let self = this;
+
+    let errs = self.common.validate(req, [
+      { name: 'note', type: 'query' },
+    ]);
+    if (errs) {
+      res.status(400);
+      return res.json({ errors: errs, confirmation: "false" });
+    }
+    try {
+      let ui = new UI(self.app, self.name);
+      let ret = await ui.getChecklistItems(req.user.userId, req.query);
+      res.json(ret);
+    } catch (err) {
+      res.status(500);
+      let errMessage = "Error getting checklistItems " + err.toString();
+      let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
+      res.json(ret);
+    }
+  }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  postChecklistItem
+  | -----------------------------------------------------------------------
+  */
+  async postChecklistItem(req, res) {
+    let self = this;
+
+    let errs = self.common.validate(req, [
+      { name: 'noteId', type: 'body' },
+      { name: 'label', type: 'body' },
+    ]);
+    if (errs) {
+      res.status(400);
+      return res.json({ errors: errs, confirmation: "false" });
+    }
+    try {
+      let ui = new UI(self.app, self.name);
+      let ret = await ui.postChecklistItem(req.user.userId, req.body);
+      res.json(ret);
+    } catch (err) {
+      res.status(500);
+      let errMessage = "Error posting new checklistItem " + err.toString();
+      let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
+      res.json(ret);
+    }
+  }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  updateChecklistItem
+  | -----------------------------------------------------------------------
+  */
+  async updateChecklistItem(req, res) {
+    let self = this;
+
+    let errs = self.common.validate(req, [
+      { name: 'id', type: 'body' },
+      { name: 'label', type: 'body' },
+      { name: 'isSelected', type: 'body' },
+      { name: 'active', type: 'body' },
+    ]);
+    if (errs) {
+      res.status(400);
+      return res.json({ errors: errs, confirmation: "false" });
+    }
+    try {
+      let ui = new UI(self.app, self.name);
+      let ret = await ui.updateChecklistItem(req.user.userId, req.body);
+      res.json(ret);
+    } catch (err) {
+      res.status(500);
+      let errMessage = "Error updating checklistItem " + err.toString();
+      let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
+      res.json(ret);
+    }
+  }
+
 }
 module.exports = Service;

@@ -60,10 +60,11 @@ class UiDao {
              CASE WHEN n.last_modify is not null THEN DATE_FORMAT(n.last_modify, \"%Y%m%d%H%i%S\") ELSE
              DATE_FORMAT(DATE_SUB(n.create_date,INTERVAL 1 HOUR), \"%Y%m%d%H%i%S\") END sortKey, s.id statusId, s.status, s.status_class statusClass,
              DATE_FORMAT(DATE_SUB(COALESCE(n.last_modify,n.create_date),INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") dispDate,
-             COALESCE(s.bs_icon_class, 'bi-card-text') bsIconClass
+             COALESCE(s.bs_icon_class, 'bi-card-text') bsIconClass, n.note_type_id noteTypeId, t.note_type noteType
              from note n
              LEFT JOIN user_category c on n.category_id = c.id
              LEFT JOIN note_status s on n.status_id = s.id
+             LEFT JOIN note_type t on n.note_type_id = t.id
              where delete_ind = 0 and n.user_id = ? and n.category_id = ? order by sortKey desc`;
     let queryParams = [ userId, categoryId ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
@@ -158,6 +159,71 @@ class UiDao {
     let queryParams = [ ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  getChecklistItems
+  | -----------------------------------------------------------------------
+  */
+  async getChecklistItems(userId, noteId) {
+    let self = this;
+    let sql = `SELECT c.id, c.note_id noteId, c.label, c.is_selected isSelected, 
+               DATE_FORMAT(DATE_SUB(n.last_modify,INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") lastModify
+               FROM checklist_items c
+               LEFT JOIN note n on c.note_id = n.id
+               WHERE c.active = 1 AND n.user_id = ? AND note_id = ?
+               ORDER BY c.is_selected, c.label`;
+    let queryParams = [userId, noteId];
+    return await self.dbHelper.executeSqlAwait(sql, queryParams);
+  }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  getChecklistItem
+  | -----------------------------------------------------------------------
+  */
+  async getChecklistItem(userId, itemId) {
+    let self = this;
+    let sql = `SELECT c.id, c.note_id noteId, c.label, c.is_selected isSelected, 
+               DATE_FORMAT(DATE_SUB(n.last_modify,INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") lastModify
+               FROM checklist_items c
+               LEFT JOIN note n on c.note_id = n.id
+               WHERE c.active = 1 AND n.user_id = ? AND c.id = ?
+               ORDER BY c.is_selected, c.label`;
+    let queryParams = [userId, itemId];
+    return await self.dbHelper.executeSqlAwait(sql, queryParams);
+  }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  postChecklistItem
+  | -----------------------------------------------------------------------
+  */
+  async postChecklistItem(noteId, label) {
+    let self = this;
+    let lab = label.trim();
+    let sql = `INSERT INTO checklist_items (note_id, label, create_date, is_selected, last_modify)
+               VALUES (?, ?, sysdate(), 0, sysdate())`;
+    let queryParams = [ noteId, lab ];
+    return await self.dbHelper.executeSqlAwait(sql, queryParams);
+  }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  updateChecklistItem
+  | -----------------------------------------------------------------------
+  */
+  async updateChecklistItem(noteId, label, isSelected, active) {
+    let self = this;
+    let lab = label.trim();
+    let sql = `UPDATE checklist_items 
+               SET label = ?, is_selected = ?, last_modify = sysdate(), 
+               toggle_date = sysdate(), active = ?
+               WHERE id = ?`;
+    let queryParams = [ lab, isSelected, noteId, active ];
+    return await self.dbHelper.executeSqlAwait(sql, queryParams);
+  }
 }
 
 module.exports = UiDao;
+
