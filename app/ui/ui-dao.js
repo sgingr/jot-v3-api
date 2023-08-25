@@ -60,11 +60,14 @@ class UiDao {
              CASE WHEN n.last_modify is not null THEN DATE_FORMAT(n.last_modify, \"%Y%m%d%H%i%S\") ELSE
              DATE_FORMAT(DATE_SUB(n.create_date,INTERVAL 1 HOUR), \"%Y%m%d%H%i%S\") END sortKey, s.id statusId, s.status, s.status_class statusClass,
              DATE_FORMAT(DATE_SUB(COALESCE(n.last_modify,n.create_date),INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") dispDate,
-             COALESCE(s.bs_icon_class, 'bi-card-text') bsIconClass, n.note_type_id noteTypeId, t.note_type noteType
+             COALESCE(s.bs_icon_class, 'bi-card-text') bsIconClass, n.note_type_id noteTypeId, t.note_type noteType,
+             ch.checked, ch.total
              from note n
              LEFT JOIN user_category c on n.category_id = c.id
              LEFT JOIN note_status s on n.status_id = s.id
              LEFT JOIN note_type t on n.note_type_id = t.id
+             LEFT JOIN (SELECT note_id, sum(is_selected) checked, count(0) total FROM checklist_items GROUP BY note_id) ch
+               on n.id = ch.note_id
              where delete_ind = 0 and n.user_id = ? and n.category_id = ? order by sortKey desc`;
     let queryParams = [ userId, categoryId ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
