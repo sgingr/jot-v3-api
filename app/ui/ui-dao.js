@@ -220,7 +220,7 @@ class UiDao {
                SET label = ?, is_selected = ?, last_modify = sysdate(), 
                toggle_date = sysdate(), active = ?
                WHERE id = ?`;
-    let queryParams = [ lab, isSelected, id, active ];
+    let queryParams = [ lab, isSelected, active, id ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
 }
