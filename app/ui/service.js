@@ -344,7 +344,6 @@ class Service extends ServiceBase {
       { name: 'id', type: 'body' },
       { name: 'label', type: 'body' },
       { name: 'isSelected', type: 'body' },
-      { name: 'active', type: 'body' },
     ]);
     if (errs) {
       res.status(400);

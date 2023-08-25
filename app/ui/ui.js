@@ -53,7 +53,7 @@ class UI extends UiBase {
 
   async updateChecklistItem(userId, parms) {
     let self = this;
-    await self.dao.updateChecklistItem(parms.id, parms.label, parms.isSelected, parms.active);
+    await self.dao.updateChecklistItem(parms.id, parms.label, parms.isSelected);
     //return await self.dao.getNotes(userId, parms.categoryId);
   }
 

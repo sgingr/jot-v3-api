@@ -214,14 +214,14 @@ class UiDao {
   |  updateChecklistItem
   | -----------------------------------------------------------------------
   */
-  async updateChecklistItem(id, label, isSelected, active) {
+  async updateChecklistItem(id, label, isSelected) {
     let self = this;
     let lab = label.trim();
     let sql = `UPDATE checklist_items 
                SET label = ?, is_selected = ?, last_modify = sysdate(), 
-               toggle_date = sysdate(), active = ?
+               toggle_date = sysdate(), active = 1
                WHERE id = ?`;
-    let queryParams = [ lab, isSelected, active, id ];
+    let queryParams = [ lab, isSelected, id ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
 }
