@@ -185,7 +185,7 @@ class UiDao {
   async getChecklistItem(userId, itemId) {
     let self = this;
     let sql = `SELECT c.id, c.note_id noteId, c.label, c.is_selected isSelected, 
-               DATE_FORMAT(DATE_SUB(n.last_modify,INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") lastModify
+               DATE_FORMAT(DATE_SUB(c.last_modify,INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") lastModify
                FROM checklist_items c
                LEFT JOIN note n on c.note_id = n.id
                WHERE c.active = 1 AND n.user_id = ? AND c.id = ?
