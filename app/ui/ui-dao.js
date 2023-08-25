@@ -66,7 +66,7 @@ class UiDao {
              LEFT JOIN user_category c on n.category_id = c.id
              LEFT JOIN note_status s on n.status_id = s.id
              LEFT JOIN note_type t on n.note_type_id = t.id
-             LEFT JOIN (SELECT note_id, sum(is_selected) checked, count(0) total FROM checklist_items GROUP BY note_id) ch
+             LEFT JOIN (SELECT note_id, sum(is_selected) checked, count(0) total FROM checklist_items WHERE active = 1 GROUP BY note_id) ch
                on n.id = ch.note_id
              where delete_ind = 0 and n.user_id = ? and n.category_id = ? order by sortKey desc`;
     let queryParams = [ userId, categoryId ];
