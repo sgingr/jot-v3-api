@@ -78,11 +78,11 @@ class UiDao {
   |  postNote
   | -----------------------------------------------------------------------
   */
-  async postNote(userId, catId, title, content, statusId) {
+  async postNote(userId, catId, title, content, statusId, noteType) {
     let self = this;
-    let sql = ` INSERT INTO note (user_id, category_id, title, content, create_date, status_id)
-                values(?,?,?,?,sysdate(),?)`;
-    let queryParams = [ userId, catId, title, content, statusId ];
+    let sql = ` INSERT INTO note (user_id, category_id, title, content, create_date, status_id, note_type_id)
+                values(?,?,?,?,sysdate(),?, (SELECT id from note_type WHERE note_type = ?))`;
+    let queryParams = [ userId, catId, title, content, statusId, noteType ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
 

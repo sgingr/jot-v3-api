@@ -19,7 +19,7 @@ class UI extends UiBase {
 
   async postNote(userId, parms) {
     let self = this;
-    await self.dao.postNote(userId, parms.categoryId, parms.noteTitle, parms.content, parms.statusId);
+    await self.dao.postNote(userId, parms.categoryId, parms.noteTitle, parms.content, parms.statusId, parms.noteType);
     return await self.dao.getNotes(userId, parms.categoryId);
   }
 
