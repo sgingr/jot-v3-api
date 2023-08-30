@@ -61,7 +61,7 @@ class UiDao {
              DATE_FORMAT(DATE_SUB(n.create_date,INTERVAL 1 HOUR), \"%Y%m%d%H%i%S\") END sortKey, s.id statusId, s.status, s.status_class statusClass,
              DATE_FORMAT(DATE_SUB(COALESCE(n.last_modify,n.create_date),INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") dispDate,
              COALESCE(s.bs_icon_class, 'bi-card-text') bsIconClass, n.note_type_id noteTypeId, t.note_type noteType,
-             ch.checked, ch.total
+             IFNULL(ch.checked, 0) checked, IFNULL(ch.total,0) total
              from note n
              LEFT JOIN user_category c on n.category_id = c.id
              LEFT JOIN note_status s on n.status_id = s.id
