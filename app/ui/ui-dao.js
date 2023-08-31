@@ -57,8 +57,10 @@ class UiDao {
     let sql = `select n.id, n.user_id userId, n.category_id categoryId, n.title, n.content,
              DATE_FORMAT(DATE_SUB(n.last_modify,INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") lastModify, n.flagged,
              DATE_FORMAT(DATE_SUB(n.create_date,INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") createDate, c.name category,
-             CASE WHEN n.last_modify is not null THEN DATE_FORMAT(n.last_modify, \"%Y%m%d%H%i%S\") ELSE
-             DATE_FORMAT(DATE_SUB(n.create_date,INTERVAL 1 HOUR), \"%Y%m%d%H%i%S\") END sortKey, s.id statusId, s.status, s.status_class statusClass,
+             CASE 
+               WHEN ch.lastCheck is not null THEN DATE_FORMAT(ch.lastCheck, "%Y%m%d%H%i%S")
+               WHEN n.last_modify is not null THEN DATE_FORMAT(n.last_modify, "%Y%m%d%H%i%S") 
+               ELSE DATE_FORMAT(DATE_SUB(n.create_date,INTERVAL 1 HOUR), "%Y%m%d%H%i%S") END sortKey, s.id statusId, s.status, s.status_class statusClass,
              DATE_FORMAT(DATE_SUB(COALESCE(n.last_modify,n.create_date),INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") dispDate,
              COALESCE(s.bs_icon_class, 'bi-card-text') bsIconClass, n.note_type_id noteTypeId, t.note_type noteType,
              IFNULL(ch.checked, 0) checked, IFNULL(ch.total,0) total
@@ -66,7 +68,7 @@ class UiDao {
              LEFT JOIN user_category c on n.category_id = c.id
              LEFT JOIN note_status s on n.status_id = s.id
              LEFT JOIN note_type t on n.note_type_id = t.id
-             LEFT JOIN (SELECT note_id, sum(is_selected) checked, count(0) total FROM checklist_items WHERE active = 1 GROUP BY note_id) ch
+             LEFT JOIN (SELECT note_id, max(last_modify) lastCheck, sum(is_selected) checked, count(0) total FROM checklist_items WHERE active = 1 GROUP BY note_id) ch
                on n.id = ch.note_id
              where delete_ind = 0 and n.user_id = ? and n.category_id = ? order by sortKey desc`;
     let queryParams = [ userId, categoryId ];
