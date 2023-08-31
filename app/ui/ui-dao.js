@@ -54,6 +54,7 @@ class UiDao {
   */
   async getNotes(userId, categoryId) {
     let self = this;
+    let limit = 50;
     let sql = `select n.id, n.user_id userId, n.category_id categoryId, n.title, n.content,
              DATE_FORMAT(DATE_SUB(n.last_modify,INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") lastModify, n.flagged,
              DATE_FORMAT(DATE_SUB(n.create_date,INTERVAL 1 HOUR), \"%m/%d/%Y  %h:%i:%S %p\") createDate, c.name category,
@@ -70,8 +71,8 @@ class UiDao {
              LEFT JOIN note_type t on n.note_type_id = t.id
              LEFT JOIN (SELECT note_id, max(last_modify) lastCheck, sum(is_selected) checked, count(0) total FROM checklist_items WHERE active = 1 GROUP BY note_id) ch
                on n.id = ch.note_id
-             where delete_ind = 0 and n.user_id = ? and n.category_id = ? order by sortKey desc`;
-    let queryParams = [ userId, categoryId ];
+             where delete_ind = 0 and n.user_id = ? and n.category_id = ? order by sortKey desc LIMIT ?`;
+    let queryParams = [ userId, categoryId, limit ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
   
