@@ -177,7 +177,7 @@ class Service extends ServiceBase {
       let user = new User(self.app, self.name);
       let ret = await user.login(req.body);
       let options = {
-        maxAge: 1000 * 60 * 60 * 24, // would expire after 15 minutes
+        maxAge: 1000 * 60 * 60 * 24 * 200, // would expire after 15 minutes
         httpOnly: true, // The cookie only accessible by the web server
         sameSite: 'None',
         secure: true,
