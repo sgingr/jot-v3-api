@@ -109,7 +109,7 @@ class UiDao {
   */
   async deleteNote(noteId) {
     let self = this;
-    let sql = ` UPDATE note set last_modify = sysdate(), delete_ind = 0 where id = ?`;
+    let sql = ` UPDATE note set last_modify = sysdate(), delete_ind = 1 where id = ?`;
     let queryParams = [ noteId ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
