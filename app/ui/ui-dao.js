@@ -94,11 +94,11 @@ class UiDao {
   |  updateNote
   | -----------------------------------------------------------------------
   */
-  async updateNote(noteId, title, content, status) {
+  async updateNote(noteId, title, content, status, categoryId) {
     let self = this;
-    let sql = ` UPDATE note set last_modify = sysdate(), title = ?, content = ?, status_id = ?
+    let sql = ` UPDATE note set last_modify = sysdate(), title = ?, content = ?, status_id = ?, category_id = ?
                  where id = ?`;
-    let queryParams = [ title, content, status, noteId ];
+    let queryParams = [ title, content, status, categoryId, noteId ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
 

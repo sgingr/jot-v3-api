@@ -25,7 +25,7 @@ class UI extends UiBase {
 
   async updateNote(userId, parms) {
     let self = this;
-    await self.dao.updateNote(parms.noteId, parms.noteTitle, parms.content, parms.statusId);
+    await self.dao.updateNote(parms.noteId, parms.noteTitle, parms.content, parms.statusId, parms.categoryId);
     return await self.dao.getNotes(userId, parms.categoryId);
   }
 
