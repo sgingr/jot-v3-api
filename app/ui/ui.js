@@ -12,6 +12,24 @@ class UI extends UiBase {
     return await self.dao.getCategories(userId);
   }
 
+  async postCategory(userId, parms) {
+    let self = this;
+    await self.dao.postCategory(userId, parms.name, parms.icon, parms.description);
+    return await self.dao.getCategories(userId);
+  }
+
+  async updateCategory(userId, parms) {
+    let self = this;
+    await self.dao.updateCategory(parms.categoryId, parms.name, parms.icon, parms.description);
+    return await self.dao.getCategories(userId);
+  }
+
+  async deleteCategory(userId, parms) {
+    let self = this;
+    await self.dao.deleteCategory(parms.categoryId);
+    return await self.dao.getCategories(userId);
+  }
+
   async getNotes(userId, parms) {
     let self = this;
     return await self.dao.getNotes(userId, parms.category);

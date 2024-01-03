@@ -39,6 +39,92 @@ class Service extends ServiceBase {
 
   /*
   | -----------------------------------------------------------------------
+  |  postCategory
+  | -----------------------------------------------------------------------
+  */
+  async postCategory(req, res) {
+    let self = this;
+
+    let errs = self.common.validate(req, [
+      { name: 'name', type: 'body' },
+      { name: 'icon', type: 'body' },
+      { name: 'description', type: 'body' },
+    ]);
+    if (errs) {
+      res.status(400);
+      return res.json({ errors: errs, confirmation: "false" });
+    }
+    try {
+      let ui = new UI(self.app, self.name);
+      let ret = await ui.postCategory(req.user.userId, req.body);
+      res.json(ret);
+    } catch (err) {
+      res.status(500);
+      let errMessage = "Error posting new category " + err.toString();
+      let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
+      res.json(ret);
+    }
+  }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  updateCategory
+  | -----------------------------------------------------------------------
+  */
+  async updateCategory(req, res) {
+    let self = this;
+
+    let errs = self.common.validate(req, [
+      { name: 'categoryId', type: 'body' },
+      { name: 'name', type: 'body' },
+      { name: 'icon', type: 'body' },
+      { name: 'description', type: 'body' },
+    ]);
+    if (errs) {
+      res.status(400);
+      return res.json({ errors: errs, confirmation: "false" });
+    }
+    try {
+      let ui = new UI(self.app, self.name);
+      let ret = await ui.updateCategory(req.user.userId, req.body);
+      res.json(ret);
+    } catch (err) {
+      res.status(500);
+      let errMessage = "Error updating category " + err.toString();
+      let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
+      res.json(ret);
+    }
+  }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  deleteNote
+  | -----------------------------------------------------------------------
+  */
+  async deleteCategory(req, res) {
+    let self = this;
+
+    let errs = self.common.validate(req, [
+      { name: 'categoryId', type: 'query' },
+    ]);
+    if (errs) {
+      res.status(400);
+      return res.json({ errors: errs, confirmation: "false" });
+    }
+    try {
+      let ui = new UI(self.app, self.name);
+      let ret = await ui.deleteCategory(req.user.userId, req.query);
+      res.json(ret);
+    } catch (err) {
+      res.status(500);
+      let errMessage = "Error deleting category " + err.toString();
+      let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
+      res.json(ret);
+    }
+  }
+
+  /*
+  | -----------------------------------------------------------------------
   |  getNotes
   | -----------------------------------------------------------------------
   */

@@ -16,7 +16,29 @@ module.exports = [
     method: 'get',
     handlerClass: 'ui/service',
     handlerMethod: 'getCategories'
-  }, {
+  },
+  {
+    name: 'post-category',
+    path: '/category',
+    method: 'post',
+    handlerClass: 'ui/service',
+    handlerMethod: 'postCategory'
+  },
+  {
+    name: 'update-category',
+    path: '/category',
+    method: 'put',
+    handlerClass: 'ui/service',
+    handlerMethod: 'updateCategory'
+  },
+  {
+    name: 'delete-category',
+    path: '/category',
+    method: 'delete',
+    handlerClass: 'ui/service',
+    handlerMethod: 'deleteCategory'
+  },
+  {
     name: 'list-notes',
     path: '/notes',
     method: 'get',

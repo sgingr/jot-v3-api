@@ -42,14 +42,52 @@ class UiDao {
     let sql = `select id, name, icon_class iconClass, default_ind defaultInd, bs_icon bsIcon, IFNULL(t.cnt, 0) cnt from user_category c
               LEFT JOIN (select category_id, count(0) as cnt from note n where user_id = ?
               group by category_id) t on (c.id = t.category_id)
-              where c.user_id = ? ORDER BY name `;
+              where c.user_id = ? AND delete_ind = 0 ORDER BY name `;
     let queryParams = [ userId, userId ];
+    return await self.dbHelper.executeSqlAwait(sql, queryParams);
+  }
+
+    /*
+  | -----------------------------------------------------------------------
+  |  postCategory
+  | -----------------------------------------------------------------------
+  */
+  async postCategory(userId, name, icon, description) {
+    let self = this;
+    let sql = ` INSERT INTO user_category (user_id, name, create_date, last_modify, bs_icon, description)
+                VALUES(?, ?, sysdate(), sysdate(), ?, ?);`;
+    let queryParams = [ userId, name, icon, description ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
 
   /*
   | -----------------------------------------------------------------------
-  |  getProcessActivities
+  |  updateCategory
+  | -----------------------------------------------------------------------
+  */
+  async updateCategory(categoryId, name, icon, description) {
+    let self = this;
+    let sql = ` UPDATE user_category set last_modify = sysdate(), name = ?, bs_icon = ?, description = ?
+                 where id = ?`;
+    let queryParams = [ name, icon, description, categoryId ];
+    return await self.dbHelper.executeSqlAwait(sql, queryParams);
+  }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  deleteCategory
+  | -----------------------------------------------------------------------
+  */
+  async deleteCategory(categoryId) {
+    let self = this;
+    let sql = ` UPDATE user_category set last_modify = sysdate(), delete_ind = 1 where id = ?`;
+    let queryParams = [ categoryId ];
+    return await self.dbHelper.executeSqlAwait(sql, queryParams);
+  }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  getNotes
   | -----------------------------------------------------------------------
   */
   async getNotes(userId, categoryId) {
