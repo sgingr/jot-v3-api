@@ -78,7 +78,7 @@ class Service extends ServiceBase {
       { name: 'categoryId', type: 'body' },
       { name: 'name', type: 'body' },
       { name: 'icon', type: 'body' },
-      { name: 'description', type: 'body' },
+      //{ name: 'description', type: 'body' },
     ]);
     if (errs) {
       res.status(400);
