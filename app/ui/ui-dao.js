@@ -39,7 +39,7 @@ class UiDao {
   */
   async getCategories(userId) {
     let self = this;
-    let sql = `select id, name, icon_class iconClass, default_ind defaultInd, bs_icon bsIcon, IFNULL(t.cnt, 0) cnt from user_category c
+    let sql = `select id, name, icon_class iconClass, default_ind defaultInd, bs_icon bsIcon, description, IFNULL(t.cnt, 0) cnt from user_category c
               LEFT JOIN (select category_id, count(0) as cnt from note n where user_id = ?
               group by category_id) t on (c.id = t.category_id)
               where c.user_id = ? AND delete_ind = 0 ORDER BY name `;
