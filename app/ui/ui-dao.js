@@ -109,7 +109,7 @@ class UiDao {
              LEFT JOIN note_type t on n.note_type_id = t.id
              LEFT JOIN (SELECT note_id, max(last_modify) lastCheck, sum(is_selected) checked, count(0) total FROM checklist_items WHERE active = 1 GROUP BY note_id) ch
                on n.id = ch.note_id
-             where delete_ind = 0 and n.user_id = ? and n.category_id = ? order by sortKey desc LIMIT ?`;
+             where n.delete_ind = 0 and n.user_id = ? and n.category_id = ? order by sortKey desc LIMIT ?`;
     let queryParams = [ userId, categoryId, limit ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
