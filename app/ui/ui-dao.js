@@ -53,11 +53,11 @@ class UiDao {
   |  postCategory
   | -----------------------------------------------------------------------
   */
-  async postCategory(userId, name, icon, description) {
+  async postCategory(userId, name, icon, description, hiddenInd) {
     let self = this;
-    let sql = ` INSERT INTO user_category (user_id, name, create_date, last_modify, bs_icon, description)
-                VALUES(?, ?, sysdate(), sysdate(), ?, ?);`;
-    let queryParams = [ userId, name, icon, description ];
+    let sql = ` INSERT INTO user_category (user_id, name, create_date, last_modify, bs_icon, description, hidden_ind)
+                VALUES(?, ?, sysdate(), sysdate(), ?, ?, ?);`;
+    let queryParams = [ userId, name, icon, description, hiddenInd ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
 
@@ -66,11 +66,11 @@ class UiDao {
   |  updateCategory
   | -----------------------------------------------------------------------
   */
-  async updateCategory(categoryId, name, icon, description) {
+  async updateCategory(categoryId, name, icon, description, hiddenInd) {
     let self = this;
-    let sql = ` UPDATE user_category set last_modify = sysdate(), name = ?, bs_icon = ?, description = ?
+    let sql = ` UPDATE user_category set last_modify = sysdate(), name = ?, bs_icon = ?, description = ?, hidden_ind = ?
                  where id = ?`;
-    let queryParams = [ name, icon, description, categoryId ];
+    let queryParams = [ name, icon, description, hiddenInd, categoryId ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
 
