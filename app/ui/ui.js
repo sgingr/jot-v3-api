@@ -14,7 +14,7 @@ class UI extends UiBase {
 
   async postCategory(userId, parms) {
     let self = this;
-    await self.dao.postCategory(userId, parms.name, parms.icon, parms.description);
+    await self.dao.postCategory(userId, parms.name, parms.icon, parms.description, parms.hiddenInd);
     return await self.dao.getCategories(userId);
   }
 
