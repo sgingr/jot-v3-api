@@ -20,7 +20,7 @@ class UI extends UiBase {
 
   async updateCategory(userId, parms) {
     let self = this;
-    await self.dao.updateCategory(parms.categoryId, parms.name, parms.icon, parms.description);
+    await self.dao.updateCategory(parms.categoryId, parms.name, parms.icon, parms.description, parms.hiddenInd);
     return await self.dao.getCategories(userId);
   }
 
