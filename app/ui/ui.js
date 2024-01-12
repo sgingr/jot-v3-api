@@ -76,5 +76,11 @@ class UI extends UiBase {
     //return await self.dao.getNotes(userId, parms.categoryId);
   }
 
+  async deleteAllChecklistItems(userId, parms) {
+    let self = this;
+    await self.dao.deleteAllChecklistItems(parms.noteId);
+    return [];
+  }
+
 }
 module.exports = UI;

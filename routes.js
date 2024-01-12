@@ -99,6 +99,13 @@ module.exports = [
     handlerClass: 'ui/service',
     handlerMethod: 'postChecklistItem'
   },
+  {
+    name: 'delete-checklist-items',
+    path: '/checklist/items',
+    method: 'delete',
+    handlerClass: 'ui/service',
+    handlerMethod: 'deleteAllChecklistItems'
+  },
   /*
   | -----------------------------------------------------------------------
   |  Auth stuffz

@@ -269,6 +269,20 @@ class UiDao {
     let queryParams = [ lab, isSelected, active, id ];
     return await self.dbHelper.executeSqlAwait(sql, queryParams);
   }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  deleteAllChecklistItems
+  | -----------------------------------------------------------------------
+  */
+  async deleteAllChecklistItems(noteId) {
+    let self = this;
+    let sql = `UPDATE checklist_items 
+               SET active = 0, last_modify = sysdate()
+               WHERE note_id = ?`;
+    let queryParams = [ noteId ];
+    return await self.dbHelper.executeSqlAwait(sql, queryParams);
+  }
 }
 
 module.exports = UiDao;

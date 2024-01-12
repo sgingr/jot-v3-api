@@ -448,5 +448,32 @@ class Service extends ServiceBase {
     }
   }
 
+  /*
+  | -----------------------------------------------------------------------
+  |  deleteAllChecklistItems
+  | -----------------------------------------------------------------------
+  */
+  async deleteAllChecklistItems(req, res) {
+    let self = this;
+
+    let errs = self.common.validate(req, [
+      { name: 'noteId', type: 'body' },
+    ]);
+    if (errs) {
+      res.status(400);
+      return res.json({ errors: errs, confirmation: "false" });
+    }
+    try {
+      let ui = new UI(self.app, self.name);
+      let ret = await ui.deleteAllChecklistItems(req.user.userId, req.body);
+      res.json(ret);
+    } catch (err) {
+      res.status(500);
+      let errMessage = "Error deleting all checklist items " + err.toString();
+      let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
+      res.json(ret);
+    }
+  }
+
 }
 module.exports = Service;
