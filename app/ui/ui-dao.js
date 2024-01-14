@@ -161,7 +161,9 @@ class UiDao {
   async getUser(email, pw) {
     let self = this;
     let em = email.trim().toLowerCase();
-    let sql = `SELECT id, name FROM user where email = ? and auth = ? and active = 1`;
+    let sql = `SELECT id, name, hide_completed_notes hideCompletedNotes,
+                 show_upd_confetti showUpdConfetti, show_check_confetti showCheckConfetti 
+               FROM user where email = ? and auth = ? and active = 1`;
     let queryParams = [ em, pw ];
     let data = await self.dbHelper.executeSqlAwait(sql, queryParams);
     return self.getFirstRow(data);
@@ -174,7 +176,9 @@ class UiDao {
   */
   async getUserById(id) {
     let self = this;
-    let sql = `SELECT id, name FROM user where id = ? and active = 1`;
+    let sql = `SELECT id, name, hide_completed_notes hideCompletedNotes,
+                 show_upd_confetti showUpdConfetti, show_check_confetti showCheckConfetti 
+               FROM user where id = ? and active = 1`;
     let queryParams = [ id ];
     let data = await self.dbHelper.executeSqlAwait(sql, queryParams);
     return self.getFirstRow(data);
