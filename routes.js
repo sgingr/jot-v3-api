@@ -132,4 +132,11 @@ module.exports = [
     handlerClass: 'ui/service',
     handlerMethod: 'getUser'
   },
+  {
+    name: 'update-user',
+    path: '/user/:id',
+    method: 'put',
+    handlerClass: 'ui/service',
+    handlerMethod: 'updateUser'
+  },
 ]
