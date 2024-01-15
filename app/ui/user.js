@@ -76,10 +76,10 @@ class User extends UiBase {
   |  updateUser
   | -----------------------------------------------------------------------
   */
-  async updateUser(userId, parms) {
+  async updateUser(parms) {
     let self = this;
-    await self.dao.updateUser(userId, parms.hideCompletedNotes, parms.showUpdConfetti, parms.showCheckConfetti);
-    return await self.dao.getUserById(userId);
+    await self.dao.updateUser(parms.id, parms.hideCompletedNotes, parms.showUpdConfetti, parms.showCheckConfetti);
+    return await self.dao.getUserById(parms.id);
   }
 }
 
