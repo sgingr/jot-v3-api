@@ -78,6 +78,8 @@ class User extends UiBase {
   */
   async updateUser(parms) {
     let self = this;
+    console.log("updating user with:");
+    console.log(parms);
     await self.dao.updateUser(parms.id, parms.hideCompletedNotes, parms.showUpdConfetti, parms.showCheckConfetti);
     return await self.dao.getUserById(parms.id);
   }
