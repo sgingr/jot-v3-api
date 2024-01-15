@@ -171,6 +171,20 @@ class UiDao {
 
   /*
   | -----------------------------------------------------------------------
+  |  updateUser
+  | -----------------------------------------------------------------------
+  */
+  async updateUser(id, hideCompletedNotes, showUpdConfetti, showCheckConfetti) {
+    let self = this;
+    let sql = ` UPDATE user set last_modify = sysdate(), hide_completed_notes = ?, 
+                 show_upd_confetti = ?, show_check_confetti = ?
+                 where id = ?`;
+    let queryParams = [ hideCompletedNotes, showUpdConfetti, showCheckConfetti, id ];
+    return await self.dbHelper.executeSqlAwait(sql, queryParams);
+  }
+
+  /*
+  | -----------------------------------------------------------------------
   |  getUserById
   | -----------------------------------------------------------------------
   */

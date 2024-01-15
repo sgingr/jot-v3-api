@@ -70,6 +70,17 @@ class User extends UiBase {
       throw (err);
     }
   }
+
+  /*
+  | -----------------------------------------------------------------------
+  |  updateUser
+  | -----------------------------------------------------------------------
+  */
+  async updateUser(userId, parms) {
+    let self = this;
+    await self.dao.updateUser(userId, parms.hideCompletedNotes, parms.showUpdConfetti, parms.showCheckConfetti);
+    return await self.dao.getUserById(userId);
+  }
 }
 
 module.exports = User;

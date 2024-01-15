@@ -364,6 +364,33 @@ class Service extends ServiceBase {
     }
   }
 
+  /*
+  | -----------------------------------------------------------------------
+  |  updateUser
+  | -----------------------------------------------------------------------
+  */
+  async updateUser(req, res) {
+    let self = this;
+
+    let errs = self.common.validate(req, [
+      { name: 'id', type: 'params' },
+    ]);
+    if (errs) {
+      res.status(400);
+      return res.json({ errors: errs, confirmation: "false" });
+    }
+    try {
+      let user = new User(self.app, self.name);
+      let ret = await user.getUser(req.params);
+      res.json(ret);
+    } catch (err) {
+      res.status(401);
+      let errMessage = "Error getting user " + err.toString();
+      let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
+      res.json(ret);
+    }
+  }
+
     /*
   | -----------------------------------------------------------------------
   |  getChecklistItems
