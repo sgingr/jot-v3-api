@@ -381,7 +381,7 @@ class Service extends ServiceBase {
     }
     try {
       let user = new User(self.app, self.name);
-      let ret = await user.getUser(req.params);
+      let ret = await user.updateUser(req.params);
       res.json(ret);
     } catch (err) {
       res.status(401);
