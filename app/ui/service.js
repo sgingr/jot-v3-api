@@ -251,6 +251,7 @@ class Service extends ServiceBase {
   */
   async login(req, res) {
     let self = this;
+    console.log(req);
 
     let errs = self.common.validate(req, [
       { name: 'email', type: 'body' },
@@ -268,6 +269,10 @@ class Service extends ServiceBase {
         httpOnly: true, // The cookie only accessible by the web server
         sameSite: 'None',
         secure: true,
+      }
+      if(req.hostname.match(/localhost/)) {
+        options.sameSite = undefined;
+        options.secure = undefined;
       }
       //res.header("Access-Control-Allow-Origin", 'http://localhost:5173');
       //res.header("Access-Control-Allow-Credentials", true);
