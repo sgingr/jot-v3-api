@@ -251,10 +251,6 @@ class Service extends ServiceBase {
   */
   async login(req, res) {
     let self = this;
-    console.log("req.headers");
-    console.log(req.headers);
-    console.log("req.hostname");
-    console.log(req.hostname);
 
     let errs = self.common.validate(req, [
       { name: 'email', type: 'body' },
@@ -273,7 +269,7 @@ class Service extends ServiceBase {
         sameSite: 'None',
         secure: true,
       }
-      if(req.hostname.match(/localhost/)) {
+      if(req.headers.origin.match(/localhost/)) {
         options.sameSite = undefined;
         options.secure = undefined;
       }
