@@ -265,15 +265,17 @@ class Service extends ServiceBase {
       let ret = await user.login(req.body);
       let options = {
         maxAge: 1000 * 60 * 60 * 24 * 200, // would expire after 15 minutes
-        //httpOnly: true, // The cookie only accessible by the web server
-        //sameSite: 'None',
-        //secure: true,
+        httpOnly: true, // The cookie only accessible by the web server
+        sameSite: 'None',
+        secure: true,
       }
+      /*
       if(!req.headers.origin.match(/localhost/)) {
         options.httpOnly = true;
         options.sameSite = 'None';
         options.secure = true;
       }
+      */
       //res.header("Access-Control-Allow-Origin", 'http://localhost:5173');
       //res.header("Access-Control-Allow-Credentials", true);
       res.cookie("session", ret.token, options);
