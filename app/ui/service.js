@@ -251,7 +251,10 @@ class Service extends ServiceBase {
   */
   async login(req, res) {
     let self = this;
-    console.log(req);
+    console.log("req.headers");
+    console.log(req.headers);
+    console.log("req.hostname");
+    console.log(req.hostname);
 
     let errs = self.common.validate(req, [
       { name: 'email', type: 'body' },
