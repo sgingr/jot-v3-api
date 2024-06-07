@@ -1,7 +1,7 @@
 'use strict';
 require('app-module-path').addPath(__dirname);
 require('app-module-path').addPath(__dirname + '/app');
-require('dotenv').config()
+require('dotenv').config({ path: '/home/sgingrco/nodejs/apps/jot-v3-api/.env' })
 /*
 | -----------------------------------------------------------------------
 |  Jot-API
