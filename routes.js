@@ -46,6 +46,13 @@ module.exports = [
     handlerMethod: 'getNotes'
   },
   {
+    name: 'list-recent-notes',
+    path: '/recent-notes',
+    method: 'get',
+    handlerClass: 'ui/service',
+    handlerMethod: 'getRecentNotes'
+  },
+  {
     name: 'post-note',
     path: '/note',
     method: 'post',

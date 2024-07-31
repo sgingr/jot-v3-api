@@ -35,6 +35,12 @@ class UI extends UiBase {
     return await self.dao.getNotes(userId, parms.category);
   }
 
+  async getRecentNotes(userId, parms) {
+    let self = this;
+    const limit = (parms.limit) ? parms.limit : 50;
+    return await self.dao.getNotes(userId, limit);
+  }
+
   async postNote(userId, parms) {
     let self = this;
     await self.dao.postNote(userId, parms.categoryId, parms.noteTitle, parms.content, parms.statusId, parms.noteType);

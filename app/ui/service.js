@@ -152,6 +152,32 @@ class Service extends ServiceBase {
     }
   }
 
+    /*
+  | -----------------------------------------------------------------------
+  |  getRecentNotes
+  | -----------------------------------------------------------------------
+  */
+  async getRecentNotes(req, res) {
+    let self = this;
+
+    let errs = self.common.validate(req, [
+    ]);
+    if (errs) {
+      res.status(400);
+      return res.json({ errors: errs, confirmation: "false" });
+    }
+    try {
+      let ui = new UI(self.app, self.name);
+      let ret = await ui.getRecentNotes(req.user.userId, req.query);
+      res.json(ret);
+    } catch (err) {
+      res.status(500);
+      let errMessage = "Error getting Recent Notes " + err.toString();
+      let ret = await self.errorHandler.logError({ errorMessage: errMessage, errorObject: err });
+      res.json(ret);
+    }
+  }
+
   /*
   | -----------------------------------------------------------------------
   |  postNote
